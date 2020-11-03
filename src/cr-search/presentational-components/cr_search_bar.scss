@@ -1,0 +1,589 @@
+.search-group{
+    display: flex;
+    flex-direction: row;
+}
+
+.myClass{
+    margin-top: 0;
+    //margin-left: 10px;
+}
+
+.radioStyle{
+    margin-top: -1.1vw;
+}
+
+.searchBarStyle{
+    margin-left: 50px;
+}
+
+.textFieldStyle{
+    margin-top: -10px;
+    border-radius: 2.5px;
+    width: 90%;
+    border: 1px solid #eee;
+    border-bottom: none;
+}
+
+.textFieldStyle_ide{
+    border: 1px solid #eee;
+    margin-right: 15px;
+    margin-left: 10px;
+    float: right;
+    cursor: pointer;
+    width: 35%;
+    border-radius: 5px;
+}
+
+#errorText{
+    width: 170px;
+}
+
+.chipStyle{
+    margin: 1px;
+    margin-left: 1px;
+    height: 25px;
+}
+
+// .eleStyle2{
+//     margin-left: 10px;
+// }
+
+// .eleStyle1{
+//     margin-left: 80px;
+// }
+
+.paperStyle{
+    width: inherit;
+}
+
+.tool_bar {
+    padding: 0.5%;
+}
+
+.tableStyle{
+    margin: 5px 5px 5px 5px;
+}
+
+.TabIndicator-colorSecondary-225{
+    background-color: white;
+}
+
+#searchField{
+    font-size: 15px;
+    margin-left: 10px;
+    padding: 10px !important;
+}
+
+.picky__placeholder{
+    font-size:  0.9vw !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    width: 90%;
+    font-style: italic;
+    overflow: hidden;
+    .items-not-selected {
+        font-size: 0.9vw;
+        color: grey;
+    }
+}
+
+.menu_dropdown {
+    color: white;
+}
+
+.picky__input{
+    border-color: #c4c4c4 !important;
+    border-radius: 4px !important;
+}
+.picky__dropdown .option
+ { 
+    font-size: 0.9vw !important;
+     div {
+        font-family: '-apple-system',
+        'BlinkMacSystemFont',
+        'sans-serif',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol' !important;
+     }
+    input {
+     margin-right: 10px !important ;
+}
+}
+
+.picky__dropdown{
+    box-shadow: 10px 10px 5px #aaaaaa;
+    .option.selected, .picky__dropdown li.selected {
+        border-bottom: 1px solid white !important;
+        white-space: pre-wrap;
+    }
+    .picky_select_all {
+        background-color: #d6ebff !important;
+        font-weight: 700;
+    }
+
+    .picky_select_all_selected {
+        background-color: #81c0fd !important;
+        font-weight: 700;
+    }
+}
+
+.react_picky_checkbox {
+    padding: 0;
+    margin-right: 5px;
+}
+
+.MuiTypography-body1-209{
+    font-size: 0.8vw;
+}
+
+.chipStyle{
+    font-size: 10px;
+}
+
+.TabIndicator-root-158{
+    display: none !important
+}
+
+.rt-th{
+    font-size: 0.8vw !important;
+    font-family: '-apple-system',
+        'BlinkMacSystemFont',
+        'sans-serif',
+        'Segoe UI',
+        'Roboto',
+        'Helvetica Neue',
+        'Arial',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol' !important;
+}
+
+.rt-td{
+    font-size: 0.8vw !important;
+    font-family: '-apple-system',
+        'BlinkMacSystemFont',
+        'sans-serif',
+        'Segoe UI',
+        'Roboto',
+        'Helvetica Neue',
+        'Arial',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol' !important;
+}
+
+.MuiChip-label-287{
+    font-size: 9px;
+}
+
+.MuiChip-label-276{
+    font-size: xx-small
+}
+
+.tableHeaderStyle{
+    flex: 35 0 auto;
+    width: 35px;
+    max-width: 35px;
+}
+
+.tableHeaderStyle div{
+    width: 20px;
+}
+
+table{
+    border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+    width: 100%;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+  } 
+
+.rc-table th{
+    padding: 5px 5px;
+    white-space: nowrap;
+    font-size: 0.8vw;
+    font-weight: normal;
+}
+
+.rc-table td {
+    padding: 5px 5px;
+    white-space: normal;
+}
+
+.rc-table td{
+    border-bottom: none;
+}
+
+.rc-table-thead{
+    background-color: #f2f2f2;
+}
+
+.rc-table-thead tr th{
+    border-right: 1px solid rgba(0, 0, 0, .05);
+}
+
+.rc-table-tbody .rc-table-row td{
+    border-right: 1px solid rgba(0, 0, 0, .05);
+}
+
+td{
+    font-size: 0.8vw;
+}
+
+.collapsible:after {
+    content: '\002B';
+    color: black;
+    font-weight: bold;
+    float: left;
+    font-size: 15px;
+    padding-right: 5px;
+    margin-left: 5px;
+}
+
+.show:after {
+    content: '-';
+    color: black;
+    font-weight: bold;
+    float: left;
+    font-size: 15px;
+    padding-right: 5px;
+    margin-left: 5px;
+}
+
+.rc-table{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.MuiButton-root-247:hover{
+   background: none;
+   background-color: none;
+   border: none;
+   text-decoration: none;
+}
+
+.MuiButton-root-247:active{
+    background-color: none;
+}
+.MuiTouchRipple-childLeaving-166{
+    animation: none;
+}
+
+.MuiTouchRipple-rippleVisible-163{
+    opacity: 0;
+    transform: none;
+    animation: none;
+}
+
+.headerAlign{
+    text-align: left;
+}
+
+.rc-table-thead tr{
+    text-align: left;
+}
+
+.rt-th :focus{
+    outline: none !important;
+}
+
+.ReactTable .rt-thead [role="columnheader"] {
+    outline: 0 !important;
+}
+
+.rc-table-row td {
+    width: 10%;
+}
+
+.rc-table-row .file_name{
+    width:100%;
+}
+
+.rc-table{
+    width:85%;
+    margin-left: 10%;
+    margin: 6%;
+    margin-top: 0%;
+}
+
+.btns-number-container{
+    margin-right: 5%;
+}
+.itemconfiguration
+    {
+        height: 20px;
+        width: 215px;
+        overflow: auto;
+        float: left;
+        position: relative;
+        margin-left: -5px;
+        overflow-y: scroll;
+        overflow-x: scroll;
+    }
+    // .addRow{
+    //     float: right;
+    // }
+    .buttons{
+        margin-left: 10px;
+        text-transform: none;
+        font-size: 0.9vw;
+    }
+    .MuiButton-label-250{
+        font-size: 0.9vw;
+    }
+    // .ReactTable .rt-tbody{
+    //     overflow: auto;
+    // }
+    // .ReactTable .rt-table{
+    //     overflow-x: scroll;
+    //     overflow-y: hidden;
+    // }
+    .MuiInput-underline-133:before{
+        border-bottom: none;
+    }
+    .MuiInput-underline-133:after{
+      border-bottom: none;
+    }
+    // .ReactTable{
+    //     // height: 500px;
+    // }
+.textFieldStyle_cr_result{
+   margin-right: 10px;
+   float: right;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 35%;
+}
+// .main_react_table{
+//     height: 500px;
+// }
+.ide_react_table{
+    // height: 500px;
+}
+.ide_trace_cr{
+    // height: 450px;
+}
+.recommended_table{
+    height: 500px;
+}
+// .ReactTable .rt-tbody{
+//     overflow-x: hidden !important;
+// }
+.column_m {
+    float: left;
+    text-align: left;
+    white-space: initial;
+    width: 75%;
+    font-weight: bold;
+  }
+  .column_1 {
+    float: right;
+    text-align: right;
+    width: 25%;
+  }
+  .MuiDialogContent-root-340{
+      min-height: 80vh;
+      max-height: 80vh;
+  }
+  .MuiSvgIcon-root-145{
+      font-size: 1.1vw;
+      color: gray;
+  }
+
+  .right-spacing {
+      margin-right: 1%;
+      margin-bottom: 0.5%;
+  }
+
+  .primary_heading {
+      flex-basis: 33%;
+      font-size: 0.9vw;
+  }
+
+  .info_icon {
+      top: -10px;
+  }
+
+  .add_keyword_container {
+      width:100%;
+  }
+
+  .main_container {
+      background-color: #fff;
+      margin-top: 0.4vw;
+      padding: 1%;
+  }
+  .main_container_ide{
+    background-color: #fff;
+    margin-top: 0.4vw;
+    padding: 1%;
+    height: 100vh;
+  }
+
+  .main_container_cr {
+        background-color: #fff;
+        margin-top: 0.4vw;
+        padding: 5px 5px 10px 5px;
+  }
+  .pmi_container_cr{
+    background-color: #fff;
+    margin-top: 0.4vw;
+    padding: 15px 5px 10px 5px;
+  }
+  .pmi_container_error{
+    margin-top: 0.4vw;
+    padding: 15px 5px 10px 5px;
+  }
+
+  .react_table_select {
+    .rc-select-selection__placeholder {
+        font-size: 10px;
+        color: #858585;
+    }
+  }
+
+  .filter_input {
+      width: 100%;
+      height: 32px;
+      
+  }
+
+  .filter_input::-webkit-input-placeholder { /* Edge */        
+    font-size : 10px
+  }
+  
+  .filter_input:-ms-input-placeholder { /* Internet Explorer */   
+    font-size : 10px
+  }
+  
+  .filter_input::placeholder {
+    font-size : 10px
+  }
+
+  .main-grid {
+      padding: 15px;
+  }
+
+  #filter_expanded_result {
+      height: 100%;
+  }
+
+  .filter_expanded_result_ide {
+      width:91%
+  }
+
+  .expanded_filter_container {
+    // padding-right: 15px;
+    width: 98%;
+  }
+
+  .add_keywords {
+      margin-top: 10px;
+      border: 2px solid #f2f2f2;
+      .MuiExpansionPanelSummary-root.Mui-expanded, .MuiExpansionPanelSummary-root {
+        min-height: 32px;
+        height: 38px;
+        border-bottom: 1px solid #f2f2f2;
+    }
+  }
+  
+  .trace_result_ide_btn {
+      margin-top:1% ;
+  }
+
+  .ide_header {
+      min-height: 48px;
+  }
+  .picky__dropdown .option, .picky__dropdown li, .picky__dropdown .option.selected, .picky__dropdown li.selected{
+      width: 100%;
+      word-break: break-all;
+  }
+  .no_data_aler, .MuiSvgIcon-fontSizeInherit-257{
+      margin: auto;
+  }
+  [class*="MuiAlert-message"]{
+    display: flex;
+    align-items: center; 
+}
+.icon_container{
+    justify-content: center;
+    display: flex;
+}
+
+
+
+.keywords_btn{
+    width: 100%;
+}
+.keywords_btn{
+    justify-content: left;
+    border: none;
+    border-bottom: 1px solid lightgrey;
+}
+
+//new styles from here
+.radio_btn_row{
+    display: flex;
+    justify-content: center;
+}
+.SearchField_input__2HOVn, .connect_btn{
+    height: 38px;
+    font-size: unset;;
+}
+.cr_number_field{
+    width: 135%;
+}
+.SearchField_search-field__2vOVs .SearchField_clear__3uNH7{
+    top: 5px;
+}
+._Frame_display-content__1aqct{
+    overflow-y: auto !important;
+    max-height: 100px;
+}
+.loader_row{
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+}
+.portal_loader{
+    color: var(--terra-application-navigation-header-background-color, #014979);
+    margin-left: 50%;
+    font-size: 40px;
+}
+.error{
+    border: 1px solid red;
+    border-radius: 3px;
+}
+.clear_keyword_btn, .get_mod_file_btn, .search_crs_btn, .pushtojira_btn, .export_btn{
+   font-size: 13px;
+}
+.clear_keyword_btn, .get_mod_file_btn, .pushtojira_btn, .export_btn{
+    border: 1px solid var(--terra-application-navigation-header-background-color, #014979);
+    color: var(--terra-application-navigation-header-background-color, #014979);;
+ }
+ .clear_keyword_btn:hover, .get_mod_file_btn:hover, .pushtojira_btn:hover, .export_btn:hover{
+    border: 1px solid var(--terra-application-navigation-header-background-color, #014979);
+    color: #023c63;
+    background-color: #e6f1f7;
+ }
+//var(--terra-application-navigation-header-background-color, #014979);
+.grid_container_result_paper{
+    margin-top: .4vw;
+}
+.cr_results_grid{
+    margin-top: .4vw;
+    border-top: 2px solid darkgray;
+}
+.Radio_label-text__CeC0i{
+    width: 100%;
+}

@@ -1,0 +1,10 @@
+ .footer_banner{
+     position: fixed;
+     bottom: 0;
+     height: 45px;
+     width: 100%;
+     background-color: var(--terra-application-navigation-header-background-color, #014979);
+     align-items: center;
+     display: flex;
+     color: #fff;
+ }
