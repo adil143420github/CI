@@ -50,7 +50,7 @@ function CRSearchBar(props) {
     const loader = useSelector((state) => state.getLoaderReducer);
 
     useEffect(() => {
-        // if (cr_keywords && (cr_keywords.length == 0 || cr_keywords.length > 0)) {
+        // if (cr_keywords && (cr_keywords.length === 0 || cr_keywords.length > 0)) {
         //     setLoader(false);
         // }
     });
@@ -105,7 +105,7 @@ function CRSearchBar(props) {
         setSolutionCRPickyValue(value);
         props.onChangeCRType(value, 'Solution');
         let sortedSolutionOptions = solutionCRIndex;
-        if (value.length == 0) {
+        if (value.length === 0) {
             sortedSolutionOptions.sort((a, b) => (a.name > b.name) ? 1 : -1)
         }
         //dispatch(allActions.getTagsAction([]));
@@ -130,15 +130,18 @@ function CRSearchBar(props) {
         dispatch(searchResultActions.getCRsResultsAction(Obj));
         //dispatch(searchResultActions.getCRsResultsAction('',tagsUpdated.toString(),crtypes));
     }
+    const clearAllKeywords = (cr) => {
+        dispatch(allActions.getIntroductoryCRUpdateKeywordsAction('', [], '0'));
+    }
     const handleSearchConnect = (e) => {
-        if (cr_number != undefined && cr_number !== '') {
+        if (cr_number !== undefined && cr_number !== '') {
             dispatch(allActions.getLoaderAction(true));
             setError('cr_number_field')
             //dispatch(allActions.getKeywordsByCRAction(cr_number));
             setCollapseTags(true);
             setCollapse(true);
-            dispatch(allActions.getIntroductoryCRUpdateKeywordsAction(cr_number, []));
-        } else if ((cr_number == undefined || cr_number === '')) {
+            dispatch(allActions.getIntroductoryCRUpdateKeywordsAction(cr_number,[], '1'));
+        } else if ((cr_number === undefined || cr_number === '')) {
             setError('cr_number_field error')
         }
     }
@@ -150,7 +153,7 @@ function CRSearchBar(props) {
             setCollapseTags(true);
             setCollapse(true);
             dispatch(allActions.getIntroductoryCRUpdateKeywordsAction(cr_number, [], '1'));
-        } else if (e.key === 'Enter' && (cr_number == undefined || cr_number === '')) {
+        } else if (e.key === 'Enter' && (cr_number === undefined || cr_number === '')) {
             setError('cr_number_field error')
         }
 
@@ -181,7 +184,7 @@ function CRSearchBar(props) {
     }
     const onSelectTag = (value) => {
         var t;
-        if (tagsUpdated == undefined) {
+        if (tagsUpdated === undefined) {
             t = []
         } else {
             t = tagsUpdated
@@ -221,9 +224,9 @@ function CRSearchBar(props) {
         solutionTooltip = solutionTooltip.slice(0, -1)
     }
     var crTypeTooltip = '';
-    if (props.CRTypeValue && props.CRTypeValue.length == 2 &&
-        (props.CRTypeValue[0].name == "Defect" || props.CRTypeValue[0].name == "Enhancement")
-        && (props.CRTypeValue[1].name == "Defect" || props.CRTypeValue[1].name == "Enhancement")) {
+    if (props.CRTypeValue && props.CRTypeValue.length === 2 &&
+        (props.CRTypeValue[0].name === "Defect" || props.CRTypeValue[0].name === "Enhancement")
+        && (props.CRTypeValue[1].name === "Defect" || props.CRTypeValue[1].name === "Enhancement")) {
         crTypeTooltip = 'Defect and Enhancement CR types are selected by default'
     }
     else {
@@ -233,7 +236,6 @@ function CRSearchBar(props) {
         crTypeTooltip = crTypeTooltip.slice(0, -1)
         crTypeTooltip = crTypeTooltip.slice(0, -1) + ' CR types are selected'
     }
-    console.log("loader = ", loader)
     return (
         <DynamicGrid defaultTemplate={CRSearchBarTemplate.template.defaultTemplate}
             tiny={CRSearchBarTemplate.template.tiny}
@@ -373,7 +375,7 @@ function CRSearchBar(props) {
                     : ''}            </DynamicGrid.Region>
             <DynamicGrid.Region {...CRSearchBarTemplate.region10}>
                 {collapseBox ?
-                    <Button className="clear_keyword_btn" onClick={() => handleSearchConnect(cr_number)} icon={<IconXSymbol />} text="CLEAR KEYWORDS" variant="ghost" />
+                    <Button className="clear_keyword_btn" onClick={() => clearAllKeywords(cr_number)} icon={<IconXSymbol />} text="CLEAR KEYWORDS" variant="ghost" />
                     : ''}            </DynamicGrid.Region>
             <DynamicGrid.Region {...CRSearchBarTemplate.region11}>
                 {collapseBox ?
@@ -393,7 +395,7 @@ function CRSearchBar(props) {
             </DynamicGrid.Region>
                 : ''}
             <DynamicGrid.Region {...CRSearchBarTemplate.region15}>
-                {CRsResults && CRsResults.length>0 ||1? <CRResults />:''}
+                {CRsResults && CRsResults.length>0 ||1? <CRResults searchType="CR" />:''}
             </DynamicGrid.Region>
         </DynamicGrid>
     )

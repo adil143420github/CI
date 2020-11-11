@@ -1,6 +1,8 @@
 import { put, takeLatest, all } from "redux-saga/effects";
 import {SET_CRS_RESULT_DATA,GET_CRS_RESULT_DATA,
-    GET_LOADER} from '../actions-types/actiontypes';
+    GET_LOADER,GET_SOL_DET_CD_OPTIONS_CR,
+    GET_STATUS_OPTIONS_CR,GET_SUB_STATUS_OPTIONS_CR,
+    GET_TYPE_OPTIONS_CR,GET_SOLCD_OPTIONS_CR} from '../actions-types/actiontypes';
 import axios from "axios";
 
 const SimpleTable = (data) => {
@@ -74,7 +76,8 @@ const SimpleTable = (data) => {
         return cr_data
 }
 const getCRsResultsActionrunOurAction = function* (data) {
-    var CRsResults=[];
+    var CRsResults=[],types=[],typeOptions=[],solCD = [], solDetailCD = [], status = [], substatus = [], affectPack = [], resolvPack = [], packName = [],
+    solCDOptions=[],solDetailCDOptions=[],statusOptions=[],substatusOptions=[],affectPackOptions=[],resolvPackOptions=[],packNameOptions=[];
     yield axios.post('http://localhost:6849/access/searchByKeyword', {
         solutionName: data.payload.solution,
         keyword: data.payload.keyword,
@@ -82,10 +85,36 @@ const getCRsResultsActionrunOurAction = function* (data) {
   }).then((response) => {
     if (response.data.hits.hits.length > 0) {
          CRsResults = SimpleTable(response.data.hits.hits);
-         console.log("CRsResults= ",CRsResults)
+         CRsResults.map(item=>{
+            if(!types.includes(item.type) && item.type !== ""){
+                types.push(item.type);
+                typeOptions.push({value:item.type,label:item.type,chipLabel:item.type.substring(0,4)+'..'})
+            }
+            if(!solCD.includes(item.Solution_CD) && item.Solution_CD !== ""){
+                solCD.push(item.Solution_CD);
+                solCDOptions.push({value:item.Solution_CD,label:item.Solution_CD,chipLabel:item.Solution_CD.substring(0,4)+'..'})
+            }
+            if(!solDetailCD.includes(item.solution_detail_cd) && item.solution_detail_cd!=""){
+                solDetailCD.push(item.solution_detail_cd);
+                solDetailCDOptions.push({value:item.solution_detail_cd,label:item.solution_detail_cd,chipLabel:item.solution_detail_cd.substring(0,4)+'..'})
+            }
+            if(!status.includes(item.Status) && item.Status !== ""){
+                status.push(item.Status);
+                statusOptions.push({value:item.Status,label:item.Status,chipLabel:item.Status.substring(0,4)+'..'})
+            }
+            if(!substatus.includes(item.Sub_Status) && item.Sub_Status !== ""){
+                substatus.push(item.Sub_Status);
+                substatusOptions.push({value:item.Sub_Status,label:item.Sub_Status,chipLabel:item.Sub_Status.substring(0,4)+'..'})
+            }
+         })
     } 
   });
     yield put({ type: SET_CRS_RESULT_DATA, payload: CRsResults });
+    yield put({ type: GET_TYPE_OPTIONS_CR, payload: typeOptions });
+    yield put({ type: GET_SOLCD_OPTIONS_CR, payload: solCDOptions });
+    yield put({ type: GET_SOL_DET_CD_OPTIONS_CR, payload: solDetailCDOptions });
+    yield put({ type: GET_STATUS_OPTIONS_CR, payload: statusOptions });
+    yield put({ type: GET_SUB_STATUS_OPTIONS_CR, payload: substatusOptions });
     yield put({ type: GET_LOADER, payload: false });
   };
   function* getCRsResultsActionDataWatcher(data) {

@@ -14,6 +14,7 @@ import CRSearchBar from '../presentational-components/cr_search_bar2'
 import { useDispatch, useSelector } from "react-redux";
 import Sample from '../presentational-components/sample';
 import allActions from "../../redux/actions/actions";
+import CRResults from '../presentational-components/cr_resuts'
 
 const titleConfig = {
     title: 'CodeInsight',
@@ -167,10 +168,11 @@ const CRSearchContainer = ({ onAction }) => {
                 </Grid> */}
                 <Grid container spacing={1} className="grid_container_ui">
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} >
-                        {activeTab != undefined && activeTab == '/crSearch' ?
+                        {activeTab !== undefined && activeTab === '/crSearch' ?
                             <CRSearchBar solutionCRPickyValue={SolutionValue} CRTypeValue={CRTypeValue} onChangeCRType={onChangeCRType} />
                             :
-                            <h1>file search{counter1}</h1>}
+                            <CRResults searchType='FILE' />
+                            }
                     </Grid>
                 </Grid>
                 <br /><br /><br />

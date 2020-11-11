@@ -153,7 +153,6 @@ const getIntroductoryChexkBoxReducer = (state = initialState.intoductoryCheckBox
   }
 };
 const getIntroductoryCRUpdateKeywordsReducer = (state = initialState.tags, action) => {
-  console.log("sag to reducer= ",action)
   switch (action.type) {
     case SET_UPDATED_KEYWORDS:
       return { ...state, payload: action.prevData.concat(action.payload).filter((item, index) => action.prevData.concat(action.payload).indexOf(item) === index)}

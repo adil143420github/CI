@@ -14,7 +14,11 @@ import {counter,customAsyncData,
   getKeywordsByCRReducer,
   getTagsReducer,getLoaderReducer,
   getSuggestedKeywordsReducer} from "../reducers/search_bar_reducer";
-  import {getCRsResultsReducer} from '../reducers/cr_search_result_reducer'
+  import {getCRsResultsReducer,
+    getTypeFilterValueReducer,getSolDetCDOptionsReducer,
+    getSortIconsReducer,getSortedColReducer,
+    getStatusOptionsReducer,getSubStatusOptionsReducer,
+    getTypeOptionsReducer,getSolCDOptionsReducer} from '../reducers/cr_search_result_reducer'
 
 export default combineReducers({
   counter,customAsyncData,getAllEmp,getAllSolutionCRIndexReducer,
@@ -23,5 +27,8 @@ export default combineReducers({
   getLoaderReducer,getSuggestedKeywordsReducer,
   getIntroductoryChexkBoxReducer,getIntroductoryCRUpdateKeywordsReducer,
   getCollapseReducer,getCollapseExpandReducer,getIntroductoryCRReducer,
-  getCRsResultsReducer
+  getCRsResultsReducer,getTypeFilterValueReducer,getSortedColReducer,
+  getSortIconsReducer,
+  getTypeOptionsReducer,getSolCDOptionsReducer,getSolDetCDOptionsReducer,
+  getStatusOptionsReducer,getSubStatusOptionsReducer
 });
