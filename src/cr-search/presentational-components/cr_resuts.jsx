@@ -23,7 +23,6 @@ import 'react-widgets/dist/css/react-widgets.css';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import resultAction from "../../redux/actions/cr_search_result_actions";
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Chip from '@material-ui/core/Chip';
 import Popper from "@material-ui/core/Popper";
 import TextField from '@material-ui/core/TextField';
@@ -71,8 +70,6 @@ export default function CRResults(props) {
   const [count, setCount] = useState([]);
   const [render, setRender] = useState(0);
   const [sortIcons, setSortIcons] = useState([null, null, null, null, null, null, null, null, null])
-  const [options, setOptions] = useState(['SrigarSrigarSrigarSrigar SrigarSrigarSrigar Srigar', 'Sam',]);
-  const [val, setVal] = useState([]);
   useEffect(() => {
 
   });
@@ -80,23 +77,58 @@ export default function CRResults(props) {
   const dispatch = useDispatch();
 
   const CRsResults = useSelector((state) => state.getCRsResultsReducer.payload);
-  const typeFilters = useSelector((state) => state.getTypeFilterValueReducer.payload);
-  const typeOptions = useSelector((state) => state.getTypeOptionsReducer.payload);
-  const solCDOptions = useSelector((state) => state.getSolCDOptionsReducer.payload);
-  const solDetCDOptions = useSelector((state) => state.getSolDetCDOptionsReducer.payload);
-  const statusOptions = useSelector((state) => state.getStatusOptionsReducer.payload);
-  const subStatusOptions = useSelector((state) => state.getSubStatusOptionsReducer.payload);
+  const typeFilterCR = useSelector((state) => state.getTypeFilterValueReducer.typeFilterCR);
+  const typeFilterFile = useSelector((state) => state.getTypeFilterValueReducer.typeFilterFile);
+  const solCDFilterCR = useSelector((state) => state.getSolCDFilterValueReducer.solCDFilterCR);
+  const solCDFilterFile = useSelector((state) => state.getSolCDFilterValueReducer.solCDFilterFile);
+  const solDetCDFilterCR = useSelector((state) => state.getSolDetCDFilterValueReducer.solDetCDFilterCR);
+  const solDetCDFilterFile = useSelector((state) => state.getSolDetCDFilterValueReducer.solDetCDFilterFile);
+  const statusFilterCR = useSelector((state) => state.getStatusFilterValueReducer.statusFilterCR);
+  const statusFilterFile = useSelector((state) => state.getStatusFilterValueReducer.statusFilterFile);
+  const subStatusFilterCR = useSelector((state) => state.getSubStatusFilterValueReducer.subStatusFilterCR);
+  const subStatusFilterFile = useSelector((state) => state.getSubStatusFilterValueReducer.subStatusFilterFile);
+  const typeOptionsCR = useSelector((state) => state.getTypeOptionsReducer.typeOptionsCR);
+  const typeOptionsFile = useSelector((state) => state.getTypeOptionsReducer.typeOptionsFile);
+  const solCDOptionsCR = useSelector((state) => state.getSolCDOptionsReducer.solCDOptionsCR);
+  const solCDOptionsFile = useSelector((state) => state.getSolCDOptionsReducer.solCDOptionsFile);
+  const solDetCDOptionsCR = useSelector((state) => state.getSolDetCDOptionsReducer.solDetCDOptionsCR);
+  const solDetCDOptionsFile = useSelector((state) => state.getSolDetCDOptionsReducer.solDetCDOptionsFile);
+  const statusOptionsCR = useSelector((state) => state.getStatusOptionsReducer.statusOptionsCR);
+  const statusOptionsFile = useSelector((state) => state.getStatusOptionsReducer.statusOptionsFile);
+  const subStatusOptionsCR = useSelector((state) => state.getSubStatusOptionsReducer.subStatusOptionsCR);
+  const subStatusOptionsFile = useSelector((state) => state.getSubStatusOptionsReducer.subStatusOptionsFile);
   const sortedArrayCR = useSelector((state) => state.getSortedColReducer.sortedColCR);
   const sortedArrayFile = useSelector((state) => state.getSortedColReducer.sortedColFile);
-  var sortCol = [];
+  console.log("statusFilterCR= ", statusFilterCR)
+  var sortCol = [], typeOptions = [], typeFilter = [], solCDOptions = [], solCDFilter = [],
+    solDetCDOptions = [], solDetCDFilter = [],statusOptions=[],statusFilter=[],
+    subStatusOptions=[],subStatusFilter=[];
   if (props.searchType === 'CR') {
-    sortCol = sortedArrayCR
+    sortCol = sortedArrayCR;
+    typeOptions = typeOptionsCR;
+    typeFilter = typeFilterCR;
+    solCDOptions = solCDOptionsCR;
+    solCDFilter = solCDFilterCR;
+    solDetCDOptions = solDetCDOptionsCR;
+    solDetCDFilter = solDetCDFilterCR;
+    statusOptions=statusOptionsCR;
+    statusFilter=statusFilterCR;
+    subStatusOptions=subStatusOptionsCR;
+    subStatusFilter=subStatusFilterCR
+
   } else {
-    sortCol = sortedArrayFile
+    sortCol = sortedArrayFile;
+    typeOptions = typeOptionsFile;
+    typeFilter = typeFilterFile;
+    solCDOptions = solCDOptionsFile;
+    solCDFilter = solCDFilterFile;
+    solDetCDOptions = solDetCDOptionsFile;
+    solDetCDFilter = solDetCDFilterFile;
+    statusOptions=statusOptionsFile;
+    statusFilter=statusFilterFile;
+    subStatusOptions=subStatusOptionsFile;
+    subStatusFilter=subStatusFilterFile
   }
-  console.log("sortedArray= ", sortCol)
-  const sortGeneral = useSelector((state) => state.getSortedColReducer);
-  // console.log("sortGeneral= ", sortGeneral)
 
   var atsData = [];
   for (let i = 0; i < 100; i++) {
@@ -114,7 +146,6 @@ export default function CRResults(props) {
     } else {
       dispatch(allActions.getSortedColFileAction(newSorted));
     }
-
   }
   const setIsShown = (value, index) => {
     let sortIcon = sortIcons
@@ -122,25 +153,31 @@ export default function CRResults(props) {
     setSortIcons(sortIcon);
     setRender(!render);
   }
+  const onExpandRow = (newExpanded, index, event) => {
+    console.log("newExpanded, index, event= ",newExpanded, index, event)
+  }
   const filterFunc = (val) => {
-    dispatch(resultAction.getTypeFilterValueAction(val));
+    dispatch(resultAction.getTypeFilterValueCRAction(val));
   }
-  const handleChange = (selectedItem) => {
-    console.log("handleChange= ", selectedItem);
-    setCount(selectedItem)
+  const handleChange = (selectedItem, accessor) => {
+    console.log("handleChange= ", accessor, selectedItem);
+    if (props.searchType === 'CR') {
+      if (accessor === 'type') {
+        dispatch(resultAction.getTypeFilterValueCRAction(selectedItem));
+      } else if (accessor === 'Solution_CD') {
+        dispatch(resultAction.getSolCDFilterValueCRAction(selectedItem));
+      } else if (accessor === 'solution_detail_cd') {
+        dispatch(resultAction.getSolDetCDFilterValueCRAction(selectedItem));
+      } else if (accessor === 'Status') {
+        dispatch(resultAction.getStatusFilterValueCRAction(selectedItem));
+      } else if (accessor === 'Sub_Status') {
+        dispatch(resultAction.getSubStatusFilterValueCRAction(selectedItem));
+      }
+       
+    } else {
+      dispatch(resultAction.getTypeFilterValueFileAction(selectedItem));
+    }
   }
-  const optionsR = [
-    { value: "oneoneone oneone", label: "oneone oneoneone oneone", chipLabel: "one.." },
-    { value: "two", label: "Two", chipLabel: "two.." },
-    { value: "two", label: "Two", chipLabel: "two.." },
-    { value: "three", label: "Three", chipLabel: "three.." }
-  ]
-  const options2 = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
-  // var sortIcons = [];
   var TagItem = ({ item }) => (
     <Tooltip title={item}>
       <span>
@@ -219,8 +256,8 @@ export default function CRResults(props) {
           CR Number
         </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0  && sortCol[0].id === 'CR_Number' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'CR_Number' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'CR_Number' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'CR_Number' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[0] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -263,8 +300,8 @@ export default function CRResults(props) {
           Type
       </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0 && sortCol[0].id === 'type' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'type' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'type' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'type' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[1] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -275,18 +312,15 @@ export default function CRResults(props) {
     resizable: false,
     Filter: ({ filter, onChange }) => {
       return (
-        <div style={{ width: '100px' }}>
           <Select
-            // menuIsOpen={true}
             components={{ DropdownIndicator, MultiValue }}
             styles={{ clearIndicator: ClearIndicatorStyles }}
-            value={count}
-            onChange={handleChange}
+            value={typeFilter}
+            onChange={(selectedItem) => handleChange(selectedItem, 'type')}
             isMulti
             options={typeOptions}
             menuPortalTarget={document.body}
           />
-        </div>
       );
     }
   },
@@ -299,8 +333,8 @@ export default function CRResults(props) {
           Summary
           </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0 && sortCol[0].id === 'Summary' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'Summary' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'Summary' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'Summary' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[2] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -327,8 +361,8 @@ export default function CRResults(props) {
           Open Date
           </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0 && sortCol[0].id === 'Open_Date' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'Open_Date' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'Open_Date' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'Open_Date' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[3] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -358,8 +392,8 @@ export default function CRResults(props) {
           Solution CD
         </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0 && sortCol[0].id === 'Solution_CD' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'Solution_CD' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'Solution_CD' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'Solution_CD' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[4] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -370,18 +404,17 @@ export default function CRResults(props) {
     style: { 'whiteSpace': 'unset' },
     Filter: ({ filter, onChange }) => {
       return (
-        <div>
+        // <div style={{ width: '90px' }}>
           <Select
-            // menuIsOpen={true}
             components={{ DropdownIndicator, MultiValue }}
             styles={{ clearIndicator: ClearIndicatorStyles }}
-            value={count}
-            onChange={handleChange}
+            value={solCDFilter}
+            onChange={(selectedItem) => handleChange(selectedItem, 'Solution_CD')}
             isMulti
             options={solCDOptions}
             menuPortalTarget={document.body}
           />
-        </div>
+        // </div>
       );
     }
   },
@@ -394,8 +427,8 @@ export default function CRResults(props) {
           Solution Detail CD
       </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0 && sortCol[0].id === 'solution_detail_cd' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'solution_detail_cd' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'solution_detail_cd' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'solution_detail_cd' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[5] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -406,18 +439,17 @@ export default function CRResults(props) {
     style: { 'whiteSpace': 'unset' },
     Filter: ({ filter, onChange }) => {
       return (
-        <div>
+        // <div style={{ width: '100px' }}>
           <Select
-            // menuIsOpen={true}
             components={{ DropdownIndicator, MultiValue }}
             styles={{ clearIndicator: ClearIndicatorStyles }}
-            value={count}
-            onChange={handleChange}
+            value={solDetCDFilter}
+            onChange={(selectedItem) => handleChange(selectedItem, 'solution_detail_cd')}
             isMulti
-            options={solCDOptions}
+            options={solDetCDOptions}
             menuPortalTarget={document.body}
           />
-        </div>
+        // </div>
       );
     }
   },
@@ -430,8 +462,8 @@ export default function CRResults(props) {
           Status
       </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0 && sortCol[0].id === 'Status' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'Status' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'Status' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'Status' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[6] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -442,17 +474,17 @@ export default function CRResults(props) {
     id: "Status",
     Filter: ({ filter, onChange }) => {
       return (
-        <div>
+        // <div style={{ width: '90px' }}>
           <Select
             components={{ DropdownIndicator, MultiValue }}
             styles={{ clearIndicator: ClearIndicatorStyles }}
-            value={count}
-            onChange={handleChange}
+            value={statusFilter}
+            onChange={(selectedItem) => handleChange(selectedItem, 'Status')}
             isMulti
             options={statusOptions}
             menuPortalTarget={document.body}
           />
-        </div>
+        // </div>
       );
     }
 
@@ -466,8 +498,8 @@ export default function CRResults(props) {
           Sub Status
       </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0 && sortCol[0].id === 'Sub_Status' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'Sub_Status' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'Sub_Status' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'Sub_Status' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[7] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -478,17 +510,17 @@ export default function CRResults(props) {
     style: { 'whiteSpace': 'unset' },
     Filter: ({ filter, onChange }) => {
       return (
-        <div>
+        // <div style={{ width: '90px' }}>
           <Select
             components={{ DropdownIndicator, MultiValue }}
             styles={{ clearIndicator: ClearIndicatorStyles }}
-            value={count}
-            onChange={handleChange}
+            value={subStatusFilter}
+            onChange={(selectedItem) => handleChange(selectedItem, 'Sub_Status')}
             isMulti
             options={subStatusOptions}
             menuPortalTarget={document.body}
           />
-        </div>
+        // </div>
       );
     }
   },
@@ -501,8 +533,8 @@ export default function CRResults(props) {
           Score
       </div>
         <div className="column_1">
-          {sortCol && sortCol.length>0 && sortCol[0].id === 'score' && sortCol[0].desc === false ? <IconSortAscending />
-            : sortCol && sortCol.length>0 && sortCol[0].id === 'score' && sortCol[0].desc === true ? <IconSortDescending />
+          {sortCol && sortCol.length > 0 && sortCol[0].id === 'score' && sortCol[0].desc === false ? <IconSortAscending />
+            : sortCol && sortCol.length > 0 && sortCol[0].id === 'score' && sortCol[0].desc === true ? <IconSortDescending />
               : sortIcons[8] ? <IconSortAscending /> : ''}
         </div>
       </div>
@@ -531,7 +563,7 @@ export default function CRResults(props) {
     accessor: 'chia_info',
     resizable: false,
     sortable: false,
-    show:props.searchType ==='FILE'?true:false,
+    show: props.searchType === 'FILE' ? true : false,
     width: 110,
     Cell: row => {
       return (
@@ -547,15 +579,6 @@ export default function CRResults(props) {
     }
   },
   ]
-  const onSelect = (selectedList, selectedItem) => {
-    console.log("selectedList= ", selectedList, selectedItem);
-    var temp = [];
-    selectedList.map(item => {
-      temp.push({ name2: item.name, name: item.name2, id: item.id })
-    })
-    setVal(selectedList)
-  }
-  // console.log("sortIcons 12233322= ", sortIcons[0]);
   return (
     <React.Fragment>
       <Grid container spacing={1}>
@@ -580,7 +603,17 @@ export default function CRResults(props) {
                   : false;
               }
             }}
+            defaultSorted={props.searchTyp === 'CR' ? [{ id: "score", desc: true }] : [{
+              id: "Open_Date",
+              desc: true
+            }]}
             onSortedChange={(newSorted, column, shiftKey) => { onSortedChange(newSorted, column, shiftKey) }}
+            SubComponent={(row) => {
+              return (
+              <h1>sub component here</h1>
+              )
+            }}
+            onExpandedChange={(newExpanded, index, event) =>  onExpandRow(newExpanded, index, event)}
           />
         </Grid>
       </Grid>
