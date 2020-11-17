@@ -4,12 +4,15 @@ import {GET_CRS_RESULT_DATA,GET_TYPE_FILTER_CR,
   GET_TYPE_FILTER_FILE,GET_SOL_DET_CD_FILTER_FILE,
   GET_SOL_DET_CD_FILTER_CR,GET_STATUS_FILTER_CR,
   GET_STATUS_FILTER_FILE,GET_SUB_STATUS_FILTER_CR,
-  GET_SUB_STATUS_FILTER_FILE,
+  GET_SUB_STATUS_FILTER_FILE,GET_SELECTALL_ROW_FILE,
+  GET_SELECTALL_ROW_CR,GET_THUMBS_UP_CR,
+  GET_THUMBS_UP_FILE,
   GET_STATUS_OPTIONS_CR,GET_SUB_STATUS_OPTIONS_CR,
   GET_SOL_DET_CD_OPTIONS_CR,GET_TYPE_OPTIONS_FILE,
   GET_SORTED_COL_FILE,GET_SOL_CD_FILTER_CR,
-  GET_SOL_CD_FILTER_FILE,
-  GET_SOLCD_OPTIONS_FILE,
+  GET_SOL_CD_FILTER_FILE,GET_SELECTED_ROW_FILE,
+  GET_SOLCD_OPTIONS_FILE,GET_SELECTED_ROW_CR,
+  GET_EXPANDED_ROW_CR,GET_EXPANDED_ROW_FILE,
   GET_SOL_DET_CD_OPTIONS_FILE} from '../actions-types/actiontypes'
 
     const getCRsResultsAction = (payload) => {
@@ -144,12 +147,64 @@ import {GET_CRS_RESULT_DATA,GET_TYPE_FILTER_CR,
           payload
         };
       };
+      const getExpandedRowCRAction = (payload) => {
+        return {
+          type: GET_EXPANDED_ROW_CR,
+          payload
+        };
+      };
+      const getExpandedRowFileAction = (payload) => {
+        return {
+          type: GET_EXPANDED_ROW_FILE,
+          payload
+        };
+      };
+      const getSelectedRowCRAction = (payload) => {
+        return {
+          type: GET_SELECTED_ROW_CR,
+          payload
+        };
+      };
+      const getSelectedRowFileAction = (payload) => {
+        return {
+          type: GET_SELECTED_ROW_FILE,
+          payload
+        };
+      };
+      const getSelectAllCRAction = (payload) => {
+        return {
+          type: GET_SELECTALL_ROW_CR,
+          payload
+        };
+      };
+      const getSelectAllFileAction = (payload) => {
+        return {
+          type: GET_SELECTALL_ROW_FILE,
+          payload
+        };
+      };
+      const getThumbsUpCRAction = (payload) => {
+        return {
+          type: GET_THUMBS_UP_CR,
+          payload
+        };
+      };
+      const getThumbsUpFileAction = (payload) => {
+        return {
+          type: GET_THUMBS_UP_FILE,
+          payload
+        };
+      };
 
       export default { getCRsResultsAction,getTypeFilterValueCRAction,
         getTypeOptionsCRAction,getSolCDOptionsCRAction,
         getSortedColCRAction,getSortedColFileAction,
+        getThumbsUpCRAction,getThumbsUpFileAction,
         getStatusFilterValueFileAction,getSubStatusFilterValueCRAction,
-        getSubStatusFilterValueFileAction,
+        getSubStatusFilterValueFileAction,getExpandedRowCRAction,
+        getExpandedRowFileAction,getSelectedRowCRAction,
+        getSelectedRowFileAction,getSelectAllCRAction,
+        getSelectAllFileAction,
         getSolDetCDFilterValueCRAction,getStatusFilterValueCRAction,
         getSolDetCDFilterValueFileAction,getSolDetCDFilterValueCRAction,
         getSolCDOptionsFileAction,getSolCDFilterValueFileAction,

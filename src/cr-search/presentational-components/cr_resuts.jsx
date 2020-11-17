@@ -5,7 +5,8 @@ import Grid from '@material-ui/core/Grid';
 // import ReactTable from 'react-table-6';
 // import 'react-table-6/react-table.css';
 import TagSelect from 'terra-form-select/lib/TagSelect';
-import Checkbox from 'terra-form-checkbox';
+// import Checkbox from 'terra-form-checkbox';
+import Checkbox from 'react-three-state-checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Zoom, Paper } from '@material-ui/core';
 import IconFeatured from 'terra-icon/lib/icon/IconFeatured';
@@ -30,8 +31,13 @@ import Select, { components } from "react-select";
 import ReactTooltip from 'react-tooltip';
 import moment from 'moment';
 import allActions from '../../redux/actions/cr_search_result_actions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee,faCamera,faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
-
+ const arr=[];
+  for(let i=0;i<100;i++){
+    arr.push({CR_Number:'adil'+i,CR_Number2:'adil'+i})
+  }
 const popperStyle = () => ({
   popper: {
     maxWidth: "fit-content"
@@ -66,9 +72,10 @@ const MultiValue = props => (
 );
 const DropdownIndicator = null
 export default function CRResults(props) {
-  // Declare a new state variable, which we'll call "count"
   const [count, setCount] = useState([]);
+  // const [selectAll, setSelectAll] = useState(0);
   const [render, setRender] = useState(0);
+  const [selectedSample, setSelectedSample] = useState({});
   const [sortIcons, setSortIcons] = useState([null, null, null, null, null, null, null, null, null])
   useEffect(() => {
 
@@ -99,10 +106,19 @@ export default function CRResults(props) {
   const subStatusOptionsFile = useSelector((state) => state.getSubStatusOptionsReducer.subStatusOptionsFile);
   const sortedArrayCR = useSelector((state) => state.getSortedColReducer.sortedColCR);
   const sortedArrayFile = useSelector((state) => state.getSortedColReducer.sortedColFile);
-  console.log("statusFilterCR= ", statusFilterCR)
+  const expandedRowCR = useSelector((state) => state.getExpandedRowReducer.expandedRowCR);
+  const expandedRowFile = useSelector((state) => state.getExpandedRowReducer.expandedRowFile);
+  const selectedRowCR = useSelector((state) => state.getSelectedRowReducer.selectedRowCR);
+  const selectedRowFile = useSelector((state) => state.getSelectedRowReducer.selectedRowFile);
+  const selectedAllCR = useSelector((state) => state.getSelectAllReducer.selectedAllCR);
+  const selectedAllFile = useSelector((state) => state.getSelectAllReducer.selectedAllFile);
+  const thumbsUpCR = useSelector((state) => state.getThumbsUpReducer.thumbsUpCR);
+  const thumbsUpFile = useSelector((state) => state.getThumbsUpReducer.thumbsUpFile);
+
   var sortCol = [], typeOptions = [], typeFilter = [], solCDOptions = [], solCDFilter = [],
     solDetCDOptions = [], solDetCDFilter = [],statusOptions=[],statusFilter=[],
-    subStatusOptions=[],subStatusFilter=[];
+    subStatusOptions=[],subStatusFilter=[],expandedRow=[],selectedRow={},selectAll=[],
+    thumbsUp={};
   if (props.searchType === 'CR') {
     sortCol = sortedArrayCR;
     typeOptions = typeOptionsCR;
@@ -114,7 +130,11 @@ export default function CRResults(props) {
     statusOptions=statusOptionsCR;
     statusFilter=statusFilterCR;
     subStatusOptions=subStatusOptionsCR;
-    subStatusFilter=subStatusFilterCR
+    subStatusFilter=subStatusFilterCR;
+    expandedRow=expandedRowCR;
+    selectedRow=selectedRowCR;
+    selectAll=selectedAllCR;
+    thumbsUp=thumbsUpCR;
 
   } else {
     sortCol = sortedArrayFile;
@@ -127,18 +147,57 @@ export default function CRResults(props) {
     statusOptions=statusOptionsFile;
     statusFilter=statusFilterFile;
     subStatusOptions=subStatusOptionsFile;
-    subStatusFilter=subStatusFilterFile
+    subStatusFilter=subStatusFilterFile;
+    expandedRow=expandedRowFile;
+    selectedRow=selectedRowFile;
+    selectAll=selectedAllFile;
+    thumbsUp=thumbsUpFile;
   }
-
-  var atsData = [];
-  for (let i = 0; i < 100; i++) {
-    atsData.push({ name: i + 'adil', id: i + 'ides', id2: i + 'djjid', id3: i + 'bjsj' })
+  const onChangeColor = (CR_Number) => {
+    const newSelected = Object.assign({}, thumbsUp);
+    newSelected[CR_Number] = true;
+    if(props.searchType === 'CR'){
+      dispatch(allActions.getThumbsUpCRAction(newSelected));
+    }else{
+      dispatch(allActions.getThumbsUpFileAction(newSelected));
+    }
   }
   const toggleSelectAll = () => {
-
+    let newSelected = {},selectedIndex=0;
+    if (selectAll === 0) {
+      CRsResults.forEach(x => {
+        newSelected[x.CR_Number2] = true;
+      });
+      selectedIndex=1;
+    }else if(selectAll === 2){
+      CRsResults.forEach(x => {
+        newSelected[x.CR_Number2] = false;
+      });
+      selectedIndex=0
+    }else if(selectAll === 1){
+      CRsResults.forEach(x => {
+        newSelected[x.CR_Number2] = false;
+      });
+      selectedIndex=0;
+    }
+    if(props.searchType === 'CR'){
+      dispatch(allActions.getSelectAllCRAction(selectedIndex));
+      dispatch(allActions.getSelectedRowCRAction(newSelected));
+    }else{
+      dispatch(allActions.getSelectAllFileAction(selectedIndex));
+      dispatch(allActions.getSelectedRowFileAction(newSelected));
+    }
   }
-  const toggleRow = (cr, original) => {
-
+  const toggleRow = (CR_Number, original) => {
+    const newSelected = Object.assign({}, selectedRow);
+    newSelected[CR_Number] = !selectedRow[CR_Number];
+    if (props.searchType === 'CR') {
+      dispatch(allActions.getSelectedRowCRAction(newSelected));
+      dispatch(allActions.getSelectAllCRAction(2));
+    } else {
+      dispatch(allActions.getSelectAllFileAction(2));
+      dispatch(allActions.getSelectedRowFileAction(newSelected));
+    }
   }
   const onSortedChange = (newSorted, column, shiftKey) => {
     if (props.searchType === 'CR') {
@@ -153,11 +212,22 @@ export default function CRResults(props) {
     setSortIcons(sortIcon);
     setRender(!render);
   }
-  const onExpandRow = (newExpanded, index, event) => {
-    console.log("newExpanded, index, event= ",newExpanded, index, event)
+  const onExpandRow = (newExpanded) => {
+    if (props.searchType === 'CR') {
+    dispatch(resultAction.getExpandedRowCRAction(newExpanded));
+    }else{
+      dispatch(resultAction.getExpandedRowFileAction(newExpanded));
+    }
   }
-  const filterFunc = (val) => {
-    dispatch(resultAction.getTypeFilterValueCRAction(val));
+
+  const onPageChange = (pageIndex) => {
+    if (props.searchType === 'CR') {
+      dispatch(resultAction.getExpandedRowCRAction({}));
+      }else{
+        dispatch(resultAction.getExpandedRowFileAction({}));
+      }
+  }
+  const onPageSizeChange = (pageSize, pageIndex) => {
   }
   const handleChange = (selectedItem, accessor) => {
     console.log("handleChange= ", accessor, selectedItem);
@@ -178,13 +248,6 @@ export default function CRResults(props) {
       dispatch(resultAction.getTypeFilterValueFileAction(selectedItem));
     }
   }
-  var TagItem = ({ item }) => (
-    <Tooltip title={item}>
-      <span>
-        <strong className="tag_filter">{item.substring(0, 6) + '..'}</strong>
-      </span>
-    </Tooltip>
-  );
   const cols = [{
     Header: "",
     columns: [
@@ -195,28 +258,12 @@ export default function CRResults(props) {
         filterable: false,
         Cell: ({ original }) => {
           return (
-            <Checkbox id="firstInline" className="checkbox_results" checked={false} isLabelHidden isInline onChange={() => toggleRow(original.CR_Number2, original)} />
-            // <Checkbox
-            //   size="small"
-            //   color="primary"
-            //   style={{paddingTop:"0",display:'flex'}}
-            //   checked={this.props.selectedSample[original.CR_Number2] === true}
-            //   onChange={() => this.toggleRow(original.CR_Number2, original)}
-            // />
+            <Checkbox id="firstInline" className="checkbox_results" checked={selectedRow[original.CR_Number2] === true} isLabelHidden isInline onChange={() => toggleRow(original.CR_Number2, original)} />
           );
         },
         Header: x => {
           return (
-            <Checkbox id="firstInline" className="checkbox_header" checked={false} isLabelHidden isInline onChange={toggleSelectAll} />
-            // <Checkbox
-            //   size="small"
-            //   color="primary"
-            //   style={{paddingTop:"0",display:'flex'}}
-            //   checked={this.state.selectAll === 1}
-            //   indeterminate={this.state.selectAll === 2}
-            //   onChange={() => this.toggleSelectAll()}
-            //   inputProps={{ 'aria-label': 'secondary checkbox' }}
-            // />
+            <Checkbox id="firstInline" className="checkbox_header" checked={selectAll === 1} indeterminate={selectAll === 2} onChange={toggleSelectAll} />
           );
         },
         sortable: false,
@@ -233,15 +280,16 @@ export default function CRResults(props) {
         filterable: false,
         Cell: ({ original }) => {
           return (
-            <Tooltip title="Like" aria-label="Like" placement="bottom" arrow>
-              <IconFeatured
-                id="icon"
-                className="checkbox_results"
-                //color={this.props.likeButton[original.CR_Number2] === true ? "primary" : "action" }
-                //onClick={()=> this.onChangeColor(original.CR_Number2)}
-                style={{ width: '25px', marginLeft: '15%', marginTop: '25%' }}
-              />
-            </Tooltip>
+            
+              <FontAwesomeIcon className="thumbs_up" icon={faThumbsUp} color={thumbsUp[original.CR_Number2] === true ? "red" : "" } onClick={()=>onChangeColor(original.CR_Number2)} />
+              // {/* <IconFeatured
+              //   id="icon"
+              //   className="checkbox_results"
+              //   //color={this.props.likeButton[original.CR_Number2] === true ? "primary" : "action" }
+              //   //onClick={()=> this.onChangeColor(original.CR_Number2)}
+              //   style={{ width: '25px', marginLeft: '15%', marginTop: '25%' }}
+              // /> */}
+           
           );
         },
         sortable: false,
@@ -610,10 +658,25 @@ export default function CRResults(props) {
             onSortedChange={(newSorted, column, shiftKey) => { onSortedChange(newSorted, column, shiftKey) }}
             SubComponent={(row) => {
               return (
-              <h1>sub component here</h1>
+              <h1>sub component here{row._index}</h1>
               )
             }}
-            onExpandedChange={(newExpanded, index, event) =>  onExpandRow(newExpanded, index, event)}
+            expanded={expandedRow}
+            // onExpandedChange={(newExpanded, index, event,row) =>  onExpandRow(newExpanded, index, event,row)}
+            onExpandedChange={(newExpanded, index, event) => {
+              //this.onDeselect(["0",{ref:'file_extension'}])
+              if (newExpanded[index[0]] === false) {
+                newExpanded = {}
+              } else {
+                Object.keys(newExpanded).map(k => {
+                  newExpanded[k] = parseInt(k) === index[0] ? {} : false
+                })
+              }
+              // setExpand(newExpanded)
+              onExpandRow(newExpanded)
+            }}
+            onPageChange={(pageIndex) => onPageChange(pageIndex)}
+            // onPageSizeChange={(pageSize, pageIndex) => onPageSizeChange(pageSize, pageIndex)}
           />
         </Grid>
       </Grid>

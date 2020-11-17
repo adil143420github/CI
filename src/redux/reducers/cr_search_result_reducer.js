@@ -3,6 +3,8 @@ import {SET_CRS_RESULT_DATA,
   GET_STATUS_OPTIONS_CR,GET_SUB_STATUS_OPTIONS_CR,
   GET_SORT_ICONS_CR,GET_SORTED_COL_CR,
   GET_SUB_STATUS_OPTIONS_FILE,
+  GET_SELECTED_ROW_CR,GET_SELECTALL_ROW_CR,
+  GET_SELECTED_ROW_FILE,GET_SELECTALL_ROW_FILE,
   GET_SUB_STATUS_FILTER_FILE,GET_SUB_STATUS_FILTER_CR,
   GET_SOL_DET_CD_OPTIONS_FILE,GET_STATUS_OPTIONS_FILE,
   GET_SOL_DET_CD_FILTER_CR,GET_SOL_DET_CD_FILTER_FILE,
@@ -10,6 +12,8 @@ import {SET_CRS_RESULT_DATA,
   GET_SOL_CD_FILTER_CR,GET_SOL_CD_FILTER_FILE,
   GET_TYPE_FILTER_FILE,GET_SOLCD_OPTIONS_FILE,
   GET_SORTED_COL_FILE,GET_TYPE_OPTIONS_FILE,
+  GET_EXPANDED_ROW_CR,GET_EXPANDED_ROW_FILE,
+  GET_THUMBS_UP_CR,GET_THUMBS_UP_FILE,
   GET_TYPE_OPTIONS_CR,GET_SOLCD_OPTIONS_CR} from '../actions-types/actiontypes'
   const initialState =
    {
@@ -38,6 +42,14 @@ import {SET_CRS_RESULT_DATA,
     subStatusOptionsFile:[],
     subStatusFilterCR:[],
     subStatusFilterFile:[],
+    expandedRowCR:{},
+    expandedRowFile:{},
+    selectedRowCR:{},
+    selectedRowFile:{},
+    selectedAllCR:0,
+    selectedAllFile:0,
+    thumbsUpCR:{},
+    thumbsUpFile:{},
     };
   const getCRsResultsReducer = (state = initialState.CRsResult, action) => {
   switch (action.type) {
@@ -207,11 +219,65 @@ const getSortedColReducer = (state = initialState, action) => {
       return state;
   }
 };
+const getExpandedRowReducer = (state = initialState, action) => {
+  const newState = Object.assign({}, state);
+  switch (action.type) {
+      case GET_EXPANDED_ROW_CR:
+        newState.expandedRowCR = action.payload;
+      return newState
+      case GET_EXPANDED_ROW_FILE:
+        newState.expandedRowFile = action.payload;
+      return newState
+    default:
+      return state;
+  }
+};
+const getSelectedRowReducer = (state = initialState, action) => {
+  const newState = Object.assign({}, state);
+  switch (action.type) {
+      case GET_SELECTED_ROW_CR:
+        newState.selectedRowCR = action.payload;
+      return newState
+      case GET_SELECTED_ROW_FILE:
+        newState.selectedRowFile = action.payload;
+      return newState
+    default:
+      return state;
+  }
+};
+const getSelectAllReducer = (state = initialState, action) => {
+  const newState = Object.assign({}, state);
+  switch (action.type) {
+      case GET_SELECTALL_ROW_CR:
+        newState.selectedAllCR = action.payload;
+      return newState
+      case GET_SELECTALL_ROW_FILE:
+        newState.selectedAllFile = action.payload;
+      return newState
+    default:
+      return state;
+  }
+};
+const getThumbsUpReducer = (state = initialState, action) => {
+  const newState = Object.assign({}, state);
+  switch (action.type) {
+      case GET_THUMBS_UP_CR:
+        newState.thumbsUpCR = action.payload;
+      return newState
+      case GET_THUMBS_UP_FILE:
+        newState.thumbsUpFile = action.payload;
+      return newState
+    default:
+      return state;
+  }
+};
 
 export  {getCRsResultsReducer,getTypeFilterValueReducer,
   getTypeOptionsReducer,getSolCDOptionsReducer,
   getSortIconsReducer,getSortedColReducer,
-  getSubStatusFilterValueReducer,
+  getThumbsUpReducer,
+  getSelectedRowReducer,getSelectAllReducer,
+  getSubStatusFilterValueReducer,getExpandedRowReducer,
   getSolDetCDFilterValueReducer,getStatusFilterValueReducer,
   getSolCDFilterValueReducer,getSolDetCDOptionsFileReducer,
   getStatusOptionsReducer,getSubStatusOptionsReducer,

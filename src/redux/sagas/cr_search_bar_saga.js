@@ -122,7 +122,6 @@ const getIntroductoryCRKeywordUpdaterunOurAction = function* (data) {
   yield put({ type: GET_COLLAPSE_EXPAND, payload:true });
   yield put({ type: GET_INTRODUCTORY_CR, payload:introduced_by_cr_numbers.trim() });
 }else{
-  console.log("saga else= ",data.flag)
   yield put({ type: SET_UPDATED_KEYWORDS, payload: [] ,prevData:[]});
 }
 };
